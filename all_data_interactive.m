@@ -2,10 +2,8 @@
 % EEG data visualization script
 % Input is each of the filenames of ST and DEV saved from EEG sessions.
 % Input filenames are sorted by type and data is loaded
-% MMN is calculated from loaded data and plotted in 3D matrix with the
+% MMN is calculated from loaded data and plotted in 3D axis with the
 % order by month then ISI (indicated by figure legend)
-
-
 
 close all; clear all; clc;
 % load('ts.mat');
@@ -842,48 +840,60 @@ function main
     color = ['k', 'k', 'k', 'r', 'r', 'r', 'g', 'g', 'g', 'b', 'b', 'b', 'k', 'k', 'k', 'r', 'r', 'r', 'g', 'g', 'g', 'b', 'b', 'b'];
     
     % plot KO figure
-    f = figure('Name', "figure");
+    subplot(1, 2, 1);
+%     f = figure('Name', "figure");
     hold on
     view(3);
     xlim([-5 400]);
     ylim([0 240]);
-    title("CTNS KO");
-    % plot all KO data in one fig
+    title("CLN3 KO");
+    % WT data
     for i = 1:12
         lines(i) = plot3(times, space, allmmn(:, i), 'LineWidth', 2, 'LineStyle', style(i), 'Color', color(i));
         space = space + 20;
     end
-    legend("3mo400ms", "3mo800ms", "3mo1600ms", "5mo400ms", "5mo800ms", "5mo1600ms", "7mo400ms", "7mo800ms", "7mo1600ms", "9mo400ms", "9mo800ms", "9mo1600ms");
     
-    sideview = uicontrol('Parent',f,'String','Side View','Units','normalized','Position',[0.8720    0.6939    0.0894    0.0354],'Visible','on', 'Enable', 'on', 'Callback', @snapToSideView);
-    frontview = uicontrol('Parent', f, 'String', 'Front View', 'Units','normalized','Position',[0.8720    0.6573    0.0894    0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @snaptofront);
-    button3mo = uicontrol('Parent', f, 'Style', 'togglebutton', 'String', '3 MO', 'Units','normalized','Position',[0.8720    0.6195    0.0894    0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @three_mo_toggle);
-    button5mo = uicontrol('Parent', f, 'Style', 'togglebutton', 'String', '5 MO', 'Units','normalized','Position',[0.8720    0.5817    0.0894    0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @five_mo_toggle);
-    button7mo = uicontrol('Parent', f, 'Style', 'togglebutton', 'String', '7 MO', 'Units', 'normalized', 'Position', [0.8720    0.5517    0.0894    0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @seven_mo_toggle);
-    button9mo = uicontrol('Parent', f, 'Style', 'togglebutton', 'String', '9 MO', 'Units', 'normalized', 'Position', [0.8720    0.5217    0.0894    0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @nine_mo_toggle);
-    b400 = uicontrol('Parent', f, 'Style', 'togglebutton', 'String', '400 ms', 'Units', 'normalized', 'Position', [0.8720    0.4917    0.0894    0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @b400_toggle);
-    b800 = uicontrol('Parent', f, 'Style', 'togglebutton', 'String', '800 ms', 'Units', 'normalized', 'Position', [0.8720    0.4617    0.0894    0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @b800_toggle);
-    b1600 = uicontrol('Parent', f, 'Style', 'togglebutton', 'String', '1600 ms', 'Units', 'normalized', 'Position', [0.8720    0.4317    0.0894    0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @b1600_toggle);
+    % buttons 
+    sideview = uicontrol('String','Side View','Units','normalized','Position',[0.00995568263045,0.94641256281407,.05,0.0354],'Visible','on', 'Enable', 'on', 'Callback', @snapToSideView);
+    frontview = uicontrol('String', 'Front View', 'Units','normalized','Position',[0.00995568263045,0.91641256281407,0.05,0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @snaptofront);
+    button3mo = uicontrol('Style', 'togglebutton', 'String', '3 MO', 'Units','normalized','Position',[0.00995568263045,0.88641256281407,0.05,0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @three_mo_toggle);
+    button5mo = uicontrol('Style', 'togglebutton', 'String', '5 MO', 'Units','normalized','Position',[0.00995568263045,0.85641256281407,0.05,0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @five_mo_toggle);
+    button7mo = uicontrol('Style', 'togglebutton', 'String', '7 MO', 'Units', 'normalized', 'Position', [0.00995568263045,0.82641256281407,0.05,0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @seven_mo_toggle);
+    button9mo = uicontrol('Style', 'togglebutton', 'String', '9 MO', 'Units', 'normalized', 'Position', [0.00995568263045,0.79641256281407,0.05,0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @nine_mo_toggle);
+    b400 = uicontrol('Style', 'togglebutton', 'String', '400 ms', 'Units', 'normalized', 'Position', [0.00995568263045,0.76641256281407,0.05,0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @b400_toggle);
+    b800 = uicontrol('Style', 'togglebutton', 'String', '800 ms', 'Units', 'normalized', 'Position', [0.00995568263045,0.73641256281407,0.05,0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @b800_toggle);
+    b1600 = uicontrol('Style', 'togglebutton', 'String', '1600 ms', 'Units', 'normalized', 'Position', [0.00995568263045,0.70641256281407,0.05,0.0354], 'Visible', 'on', 'Enable', 'on', 'Callback', @b1600_toggle);
     
-    %     plot WT figure
-    f2 = figure('Name', "figure");
+    %plot WT figure
+    subplot(1, 2, 2);
+%     f2 = figure('Name', "figure");
+    space = zeros(406, 1);
     hold on
     view(3);
     xlim([-5 400]);
     ylim([0 240]);
-    title("CTNS WT");
-    % plot all KO data in one fig
+    title("CLN3 WT");
+
+    % WT data
     for i = 13:24
         lines(i) = plot3(times, space, allmmn(:, i), 'LineWidth', 2, 'LineStyle', style(i), 'Color', color(i));
         space = space + 20;
-    end    
+    end  
+
+    legend("3mo400ms", "3mo800ms", "3mo1600ms", "5mo400ms", "5mo800ms", "5mo1600ms", "7mo400ms", "7mo800ms", "7mo1600ms", "9mo400ms", "9mo800ms", "9mo1600ms", 'Position', [0.486647487190949 0.791334798994975 0.065403859899928 0.177763819095477]);
     
     function snapToSideView(~, ~)
     %     disp("snap done");
+        subplot(1, 2, 1);
+        view(-90, 0);
+        subplot(1, 2, 2);
         view(-90, 0);
     end
     
     function snaptofront(~, ~)
+        subplot(1, 2, 1);
+        view(0, 0);
+        subplot(1, 2, 2);
         view(0, 0);
     end
     
